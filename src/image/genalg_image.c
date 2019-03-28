@@ -94,3 +94,30 @@ void genalg_write_image(char *path, genalg_image *bitmap) {
     png_destroy_write_struct(&png_ptr, &info_ptr);
     fclose(fp);
 }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "cert-msc30-c"
+
+genalg_image *generate_random_image(int width, int height) {
+    genalg_image *image = malloc(sizeof(genalg_image));
+    image->pixels = malloc(height * sizeof(genalg_color *));
+    image->width = width;
+    image->height = height;
+
+    for (int i = 0; i < height; i++) {
+        int y = 0;
+        image->pixels[i] = malloc(width * sizeof(genalg_color));
+        for (int j = 0; j < width * 3; j += 3) {
+            genalg_color color;
+            color.red = rand() % 255;
+            color.green = rand() % 255;
+            color.blue = rand() % 255;
+            image->pixels[i][y] = color;
+            y++;
+        }
+    }
+
+    return image;
+}
+
+#pragma clang diagnostic pop

@@ -21,4 +21,6 @@ genalg_image *genalg_load_image(char *path);
 
 void genalg_write_image(char *path, genalg_image *image);
 
+genalg_image *generate_random_image(int width, int height);
+
 #endif //IMAGE_GENETIC_ALGORITHM_GENALG_IMAGE_H
