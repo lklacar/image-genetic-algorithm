@@ -23,7 +23,7 @@ genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int populatio
 
 void mutate_if_needed(genalg_image *image) {
     if (rand() % 100 < 5) {
-        for(int i = 0;i<5000;i++){
+        for (int i = 0; i < (image->width * image->height) / 10; i++) {
             genalg_color c;
             c.red = rand();
             c.blue = rand();
@@ -68,16 +68,28 @@ int genalg_calculate_fitness(genalg_image *reference, genalg_image *image) {
     int sum = 0;
     for (int i = 0; i < reference->height; i++) {
         for (int j = 0; j < reference->width; j++) {
-            sum = sum + abs(reference->pixels[i][j].red - image->pixels[i][j].red) +
-                  abs(reference->pixels[i][j].green - image->pixels[i][j].green) +
-                  abs(reference->pixels[i][j].blue - image->pixels[i][j].blue);
+            int red_difference = abs(reference->pixels[i][j].red - image->pixels[i][j].red);
+            int green_difference = abs(reference->pixels[i][j].green - image->pixels[i][j].green);
+            int blue_difference = abs(reference->pixels[i][j].blue - image->pixels[i][j].blue);
+
+            if (red_difference < 30) {
+                sum += 1;
+            }
+
+            if (green_difference < 30) {
+                sum += 1;
+            }
+
+            if (blue_difference < 30) {
+                sum += 1;
+            }
         }
     }
 
-    return INT_MIN - sum;
+    return sum;
 }
 
-int roulette_choose(int *fitness_array, int size) {
+int roulette_choose(int fitness_array[], int size) {
     int weight_sum = 0;
 
     for (int i = 0; i < size; i++) {
@@ -87,8 +99,6 @@ int roulette_choose(int *fitness_array, int size) {
     double value = rand() % weight_sum;
 
     for (int i = 0; i < size; i++) {
-        weight_sum += fitness_array[i];
-
         value -= fitness_array[i];
         if (value < 0) {
             return i;
