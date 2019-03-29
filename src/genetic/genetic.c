@@ -8,11 +8,12 @@
 #include <limits.h>
 #include <stdlib.h>
 
-genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int population_size) {
+genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int population_size, int iteration_count) {
     genalg_genetic *genetic = malloc(sizeof(genalg_genetic));
     genetic->population = malloc(population_size * sizeof(genalg_image));
     genetic->population_size = population_size;
     genetic->reference_image = reference_image;
+    genetic->iteration_count = iteration_count;
 
     for (int i = 0; i < population_size; i++) {
         genetic->population[i] = generate_random_image(reference_image->width, reference_image->height);
@@ -37,13 +38,14 @@ void genalg_start(genalg_genetic *genetic) {
     int fitness_array[genetic->population_size];
 
 
-    for (int i = 0; i < 500; i++) {
-        printf("%d ", i);
-        fflush(stdout);
-
+    for (int i = 0; i < genetic->iteration_count; i++) {
+        double sum = 0;
         for (int j = 0; j < genetic->population_size; j++) {
             fitness_array[j] = genalg_calculate_fitness(genetic->reference_image, genetic->population[j]);
+            sum += fitness_array[j];
         }
+
+        printf("Generation %d:\t%f\n", i, sum / genetic->population_size);
 
         int a = roulette_choose(fitness_array, genetic->population_size);
         int b = roulette_choose(fitness_array, genetic->population_size);

@@ -13,9 +13,10 @@ typedef struct genalg_genetic {
     int current_generation;
     int population_size;
     genalg_image *reference_image;
+    int iteration_count;
 } genalg_genetic;
 
-genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int population_size);
+genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int population_size, int iteration_count);
 
 void genalg_start(genalg_genetic *genetic);
 
