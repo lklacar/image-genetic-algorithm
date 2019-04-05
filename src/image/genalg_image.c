@@ -7,6 +7,11 @@
 #include <stdio.h>
 #include <png.h>
 
+
+const genalg_color RED = {255, 0, 0};
+const genalg_color GREEN = {0, 255, 0};
+const genalg_color BLUE = {0, 0, 255};
+
 genalg_image *genalg_load_image(char *path) {
 
     FILE *fp = fopen(path, "r");
@@ -115,6 +120,38 @@ genalg_image *generate_random_image(int width, int height) {
             image->pixels[i][y] = color;
             y++;
         }
+    }
+
+    return image;
+}
+
+genalg_image *generate_color_image(int width, int height, genalg_color color) {
+    genalg_image *image = malloc(sizeof(genalg_image));
+    image->pixels = malloc(height * sizeof(genalg_color *));
+    image->width = width;
+    image->height = height;
+
+    for (int i = 0; i < height; i++) {
+        int y = 0;
+        image->pixels[i] = malloc(width * sizeof(genalg_color));
+        for (int j = 0; j < width * 3; j += 3) {
+            image->pixels[i][y] = color;
+            y++;
+        }
+    }
+
+    return image;
+}
+
+genalg_image *init_empty_image(int width, int height) {
+    genalg_image *image = malloc(sizeof(genalg_image));
+    image->pixels = malloc(height * sizeof(genalg_color *));
+    image->width = width;
+    image->height = height;
+
+    for (int i = 0; i < height; i++) {
+        int y = 0;
+        image->pixels[i] = malloc(width * sizeof(genalg_color));
     }
 
     return image;

@@ -11,7 +11,7 @@ int main() {
 
     genalg_image *image = genalg_load_image("../res/cat.png");
 
-    genalg_genetic *genetic = genalg_genetic_init(image, 200, 5000);
+    genalg_genetic *genetic = genalg_genetic_init(image, 200, 10000);
     genalg_start(genetic);
 
     return 0;

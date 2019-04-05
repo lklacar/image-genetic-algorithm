@@ -24,6 +24,6 @@ int genalg_calculate_fitness(genalg_image *reference, genalg_image *image);
 
 int roulette_choose(int *fitness_array, int size);
 
-void crossover(genalg_image *image1, genalg_image *image2);
+genalg_image** crossover(genalg_image *image1, genalg_image *image2);
 
 #endif //IMAGE_GENETIC_ALGORITHM_GENETIC_H
