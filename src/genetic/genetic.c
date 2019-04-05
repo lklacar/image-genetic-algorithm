@@ -35,7 +35,7 @@ genalg_genetic *genalg_genetic_init(genalg_image *reference_image, int populatio
 }
 
 void mutate_if_needed(genalg_image *image) {
-    if (random_int(0, 100) > 2) {
+    if (random_int(0, 100) > 5) {
         return;
     }
 
@@ -45,9 +45,9 @@ void mutate_if_needed(genalg_image *image) {
     for (int i = 0; i < image->height; i++) {
         for (int j = 0; j < image->width; j++) {
             genalg_color c = image->pixels[i][j];
-            c.red += rr;
-            c.green += rg;
-            c.blue += rb;
+            c.red = rr;
+            c.green = rg;
+            c.blue = rb;
             image->pixels[i][j] = c;
         }
     }
@@ -106,7 +106,7 @@ int *find_elites(const int *fitness_array, int size) {
 
 genalg_image **generate_new_population(genalg_image **old_population, int *fitness_array, int size) {
 
-    int added_elites = 0;
+    int added_elites = 1;
 
     genalg_image **new_population = malloc(size * sizeof(genalg_image *));
     for (int i = 0; i < size; i += 2) {
@@ -194,17 +194,17 @@ int genalg_calculate_fitness(genalg_image *reference, genalg_image *image) {
             int green_difference = abs(reference->pixels[i][j].green - image->pixels[i][j].green);
             int blue_difference = abs(reference->pixels[i][j].blue - image->pixels[i][j].blue);
 
-            if (red_difference < 10) {
-                sum += 1;
+            if (red_difference < 10 && green_difference < 10 && blue_difference < 10) {
+                sum += 30 - (red_difference + green_difference + blue_difference);
             }
 
-            if (green_difference < 10) {
-                sum += 1;
-            }
-
-            if (blue_difference < 10) {
-                sum += 1;
-            }
+//            if (green_difference < 10) {
+//                sum += 1;
+//            }
+//
+//            if (blue_difference < 10) {
+//                sum += 1;
+//            }
         }
     }
 

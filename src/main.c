@@ -9,9 +9,9 @@ int main() {
 
     printf("Hello, World!\n");
 
-    genalg_image *image = genalg_load_image("../res/cat.png");
+    genalg_image *image = genalg_load_image("../res/luka.png");
 
-    genalg_genetic *genetic = genalg_genetic_init(image, 200, 10000);
+    genalg_genetic *genetic = genalg_genetic_init(image, 10000, 1000);
     genalg_start(genetic);
 
     return 0;
